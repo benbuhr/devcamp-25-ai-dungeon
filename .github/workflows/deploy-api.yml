@@ -27,9 +27,9 @@ jobs:
       - name: Azure login (OIDC)
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_50548B8E75984B149D5CCE882AC1EF9B }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_0FA3B7CE87444C68A30F1F4052DF9E6C }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_0A412164446A4FB59E7AA44AA075B452 }}
 
       - name: Resolve static site endpoint (for CORS)
         id: web
