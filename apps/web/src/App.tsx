@@ -4,6 +4,7 @@ import "./index.css";
 import { useSession } from "./hooks/useSession";
 import { useGameClient } from "./hooks/useGameClient";
 import { MapView } from "./components/map/MapView";
+import { WorldMapDialog } from "./components/map/WorldMapDialog";
 import { ChatWindow } from "./components/chat/ChatWindow";
 import { ChatMessage, PendingConfirm } from "./types/chat";
 
@@ -57,6 +58,7 @@ const App = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([welcomeMessage]);
   const [pendingConfirm, setPendingConfirm] = useState<PendingConfirm | null>(null);
   const [flavorEnabled, setFlavorEnabled] = useState(true);
+  const [mapDialogOpen, setMapDialogOpen] = useState(false);
   const state: GameState | undefined = stateQuery.data?.state;
   const client: ClientState | undefined = stateQuery.data?.client;
   const [statDelta, setStatDelta] = useState<{ power?: number; ward?: number; hp?: number } | null>(null);
@@ -157,6 +159,29 @@ const App = () => {
     if (!sessionId || pendingConfirm) {
       return;
     }
+    
+    // Check if this is a map command
+    const normalizedText = text.toLowerCase().trim();
+    const isMapCommand = normalizedText === "map" || 
+                        normalizedText === "world map" || 
+                        normalizedText === "show map" ||
+                        normalizedText.startsWith("map ");
+    
+    if (isMapCommand && client?.roomGraph && state) {
+      // Open the map dialog
+      setMapDialogOpen(true);
+      // Still send the command to backend for logging, but we'll show the dialog
+      setMessages((prev) => [...prev, buildMessage("player", text)]);
+      commandMutation.mutate(
+        { text },
+        {
+          onSuccess: handleCommandSuccess(text),
+          onError: handleCommandError
+        }
+      );
+      return;
+    }
+    
     setMessages((prev) => [...prev, buildMessage("player", text)]);
     commandMutation.mutate(
       { text },
@@ -250,6 +275,19 @@ const App = () => {
             exits={client?.exits}
             onMove={(dir) => handleSubmit(`go ${dir}`)}
           />
+          {client?.roomGraph ? (
+            <div style={{ marginTop: "0.75rem" }}>
+              <button
+                type="button"
+                className="ghost"
+                title="Open world map"
+                aria-label="Open world map"
+                onClick={() => setMapDialogOpen(true)}
+              >
+                World Map
+              </button>
+            </div>
+          ) : null}
           {client?.visibleActors && client.visibleActors.length > 0 ? (
             <div className="figures">
               <h3>Figures</h3>
@@ -392,6 +430,14 @@ const App = () => {
         }}
       />
       <aside className="sidebar">{sidebar}</aside>
+      {client?.roomGraph && state && (
+        <WorldMapDialog
+          roomGraph={client.roomGraph}
+          currentRoomId={state.roomId}
+          isOpen={mapDialogOpen}
+          onClose={() => setMapDialogOpen(false)}
+        />
+      )}
     </main>
   );
 };

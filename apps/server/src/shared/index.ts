@@ -11,7 +11,8 @@ export const VERBS = [
   "pray",
   "equip",
   "unequip",
-  "stats"
+  "stats",
+  "map"
 ] as const;
 
 export type Verb = (typeof VERBS)[number];
