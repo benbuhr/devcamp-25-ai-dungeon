@@ -27,9 +27,26 @@ When creating pull requests or branches, ALWAYS use descriptive branch names wit
 - **feature/**: New functionality, new modules, new features, enhancements, improvements, configuration files, documentation
 - **fix/**: Bug fixes, error corrections, addressing issues, patching problems
 
+## Pull Request Titles:
+
+PR titles should **NOT** be the same as the branch name. PR titles should:
+- Be descriptive and human-readable
+- Clearly explain what the change does or fixes
+- Use title case or sentence case (not kebab-case)
+- Focus on the "what" and "why" of the change
+- Be more detailed than the branch name when needed
+
+### PR Title Examples:
+- Branch: `feature/add-branch-naming-guidelines` → PR Title: "Add branch naming guidelines for PRs"
+- Branch: `feature/improve-nlu-confidence` → PR Title: "Improve NLU confidence scoring and threshold handling"
+- Branch: `fix/combat-damage-calculation` → PR Title: "Fix incorrect damage calculation in combat system"
+- Branch: `fix/session-timeout-issue` → PR Title: "Fix session timeout not respecting TTL configuration"
+- Branch: `feature/map-generation-optimization` → PR Title: "Optimize map generation algorithm for better performance"
+
 ## Important:
 When the user requests to create a PR or when automatically creating branches for PRs:
 1. Analyze the changes to determine if it's a `feature/` or `fix/`
-2. Create a descriptive branch name based on the actual changes
-3. Use kebab-case (lowercase with hyphens)
-4. Keep it short but meaningful
+2. Create a descriptive branch name based on the actual changes (kebab-case, 2-4 words)
+3. Create a separate, more descriptive PR title that explains the change clearly
+4. The PR title should be different from and more descriptive than the branch name
+5. Use kebab-case for branch names, but title/sentence case for PR titles
