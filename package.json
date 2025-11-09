@@ -1,0 +1,22 @@
+{
+  "name": "ai-dungeon",
+  "version": "0.1.0",
+  "description": "Ashen Vale chat dungeon monorepo (web + server + shared packages).",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/web",
+    "apps/server",
+    "packages/shared"
+  ],
+  "scripts": {
+    "dev:web": "npm --workspace apps/web run dev",
+    "dev:server": "npm --workspace apps/server run dev",
+    "build": "npm run build --workspaces",
+    "lint": "npm run lint --workspaces",
+    "test": "npm run test --workspaces",
+    "format": "npm run format --workspaces"
+  },
+  "author": "",
+  "license": "MIT"
+}
