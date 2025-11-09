@@ -1,0 +1,35 @@
+---
+description: Enforce branch naming conventions for PRs
+alwaysApply: true
+---
+
+# Branch Naming Convention for Pull Requests
+
+When creating pull requests or branches, ALWAYS use descriptive branch names with appropriate prefixes. Never use random strings, UUIDs, or date-based random names.
+
+## Branch Naming Rules:
+
+- Use `feature/` prefix for new features, enhancements, or additions
+- Use `fix/` prefix for bug fixes, corrections, or patches
+- Follow the prefix with a short, kebab-case description of the change
+- Keep branch names concise but descriptive (2-4 words typically)
+- DO NOT use random strings or UUIDs in branch names
+- DO NOT use date-based random names like `2025-11-09-xymn-3d16b`
+
+## Examples:
+- `feature/add-cursorrules-config`
+- `feature/improve-nlu-confidence`
+- `fix/combat-damage-calculation`
+- `fix/session-timeout-issue`
+- `feature/map-generation-optimization`
+
+## Determining Prefix:
+- **feature/**: New functionality, new modules, new features, enhancements, improvements, configuration files, documentation
+- **fix/**: Bug fixes, error corrections, addressing issues, patching problems
+
+## Important:
+When the user requests to create a PR or when automatically creating branches for PRs:
+1. Analyze the changes to determine if it's a `feature/` or `fix/`
+2. Create a descriptive branch name based on the actual changes
+3. Use kebab-case (lowercase with hyphens)
+4. Keep it short but meaningful
