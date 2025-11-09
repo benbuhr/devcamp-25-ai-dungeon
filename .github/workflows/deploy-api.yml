@@ -1,0 +1,54 @@
+name: Deploy API to Azure App Service
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/server/**'
+      - '.github/workflows/deploy-api.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  AZURE_WEBAPP_NAME: ai-dungeon
+  AZURE_RESOURCE_GROUP: devcamp-ai-dungeon
+  STORAGE_ACCOUNT_NAME: aidungeon
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Resolve static site endpoint (for CORS)
+        id: web
+        run: |
+          endpoint=$(az storage account show --name "$STORAGE_ACCOUNT_NAME" --query "primaryEndpoints.web" -o tsv)
+          echo "endpoint=${endpoint%/}" >> $GITHUB_OUTPUT
+
+      - name: Configure API app settings (CORS allowlist)
+        run: |
+          az webapp config appsettings set \
+            --resource-group "$AZURE_RESOURCE_GROUP" \
+            --name "$AZURE_WEBAPP_NAME" \
+            --settings CLIENT_ORIGINS=${{ steps.web.outputs.endpoint }}
+
+      - name: Deploy to Azure Web App (Oryx build)
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          package: apps/server
+          enable-oryx-build: true
+
+
