@@ -56,7 +56,8 @@ const verbKeywords: Array<{ verb: Command["verb"]; patterns: RegExp[] }> = [
   },
   { verb: "stats", patterns: [/\bstats?\b/, /\bstatus\b/, /\bhealth\b/] },
   { verb: "pray", patterns: [/\bpray\b/, /\bkneel\b/, /\bbeseech\b/] },
-  { verb: "go", patterns: [/\bgo\b/, /\bwalk\b/, /\brun\b/, /\bhead\b/] }
+  { verb: "go", patterns: [/\bgo\b/, /\bwalk\b/, /\brun\b/, /\bhead\b/] },
+  { verb: "map", patterns: [/\bmap\b/, /\bworld map\b/, /\bshow map\b/] }
 ];
 
 const sanitize = (text: string) =>

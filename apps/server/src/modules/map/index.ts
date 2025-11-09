@@ -4,14 +4,16 @@ import { goHandler } from "./verbs/go.js";
 import { lookHandler } from "./verbs/look.js";
 import { talkHandler } from "./verbs/talk.js";
 import { prayHandler } from "./verbs/pray.js";
+import { mapHandler } from "./verbs/map.js";
 
 const MAP_VERBS: Array<
-  [Verb, typeof goHandler | typeof lookHandler | typeof talkHandler | typeof prayHandler]
+  [Verb, typeof goHandler | typeof lookHandler | typeof talkHandler | typeof prayHandler | typeof mapHandler]
 > = [
   ["go", goHandler],
   ["look", lookHandler],
   ["talk", talkHandler],
-  ["pray", prayHandler]
+  ["pray", prayHandler],
+  ["map", mapHandler]
 ];
 
 export const registerMapModule = (registry: Registry) => {
